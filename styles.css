@@ -1,0 +1,946 @@
+/* ===================================================
+   THE MEMORY ODYSSEY: 7 ANIME CHAPTERS
+   Standard Modern Fonts, Matching Theme Colors, Runaway No Logic
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+    width: 100%;
+    min-height: 100vh;
+    font-family: var(--font-primary);
+    color: #f8fafc;
+    background: #020408;
+    overflow-x: hidden;
+    user-select: none;
+    transition: background 0.7s ease;
+}
+
+/* ===================================================
+   DISTINCT ATMOSPHERIC BACKGROUNDS PER LEVEL
+   =================================================== */
+body.theme-level-1 {
+    background: radial-gradient(circle at 50% 25%, #3f0707, #150202 65%, #050000 95%);
+}
+body.theme-level-2 {
+    background: radial-gradient(circle at 50% 25%, #451a03, #1c0a00 65%, #080300 95%);
+}
+body.theme-level-3 {
+    background: radial-gradient(circle at 50% 25%, #4c0519, #20040a 65%, #0a0104 95%);
+}
+body.theme-level-4 {
+    background: radial-gradient(circle at 50% 25%, #064e3b, #042a1f 65%, #01140e 95%);
+}
+body.theme-level-5 {
+    background: radial-gradient(circle at 50% 20%, #4c1d95, #220e46 65%, #090214 95%);
+}
+body.theme-level-6 {
+    background: radial-gradient(circle at 50% 20%, #881337, #380414 65%, #0f0105 95%);
+}
+body.theme-level-7 {
+    background: radial-gradient(circle at 50% 25%, #78350f, #3b1602 65%, #120600 95%);
+}
+
+/* Rain Effect for Level 5 */
+.rain-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: repeating-linear-gradient(transparent, transparent 50px, rgba(255,255,255,0.08) 50px, rgba(255,255,255,0.08) 52px);
+    animation: rainAnim 0.3s linear infinite;
+}
+
+body.theme-level-5 .rain-overlay {
+    display: block;
+}
+
+@keyframes rainAnim {
+    0% { background-position: 0 0; }
+    100% { background-position: -25px 220px; }
+}
+
+/* App Container */
+.app-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 14px 45px;
+}
+
+/* Top Navbar */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+    margin-bottom: 16px;
+}
+
+.brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-badge .brand-icon {
+    font-size: 1.4rem;
+}
+
+.brand-title {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffd700;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #f8fafc;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-btn.active {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+/* 7 Steps Progress Bar */
+.steps-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    background: rgba(10, 15, 29, 0.75);
+    backdrop-filter: blur(14px);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tracker-line {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 1;
+}
+
+.tracker-fill {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #ef4444, #f59e0b, #f43f5e, #10b981, #c084fc, #ec4899, #ffd700);
+    box-shadow: 0 0 12px #ffd700;
+    z-index: 2;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-node {
+    position: relative;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #0f172a;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #64748b;
+    transition: all 0.4s ease;
+}
+
+.step-node.active {
+    transform: scale(1.22);
+    border-color: #ffd700;
+    background: #231b08;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+}
+
+.step-node.done {
+    background: #064e3b;
+    border-color: #10b981;
+    color: #a7f3d0;
+}
+
+/* ===================================================
+   BASE LEVEL CARD STYLING (Standard Typography)
+   =================================================== */
+.level-card {
+    display: none;
+    position: relative;
+    border-radius: 28px;
+    padding: 24px 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    animation: levelFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    overflow: hidden;
+}
+
+.level-card.active {
+    display: block;
+}
+
+@keyframes levelFadeIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.art-banner {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+}
+
+.art-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.art-banner:hover img {
+    transform: scale(1.03);
+}
+
+.level-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.level-tag {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.level-title {
+    font-family: var(--font-primary);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+}
+
+/* Faint Interactive Easter Box (Default) */
+.hidden-easter-box {
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.hidden-easter-text {
+    font-family: var(--font-primary);
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.hidden-easter-box.unlocked .hidden-easter-text {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+/* Hint Container (Default) */
+.hint-container {
+    border-radius: 14px;
+    padding: 15px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.hint-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-primary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.hint-body {
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+/* Solve Form & Inputs */
+.solve-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.answer-input {
+    width: 100%;
+    padding: 15px 18px;
+    border-radius: 16px;
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.answer-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px 22px;
+    border: none;
+    border-radius: 16px;
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+    filter: brightness(1.12);
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Error Message */
+.error-msg {
+    display: none;
+    color: #f87171;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 600;
+    animation: errorShake 0.4s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+/* Success Reveal Box (Default) */
+.success-reveal-box {
+    display: none;
+    border-radius: 18px;
+    padding: 22px 18px;
+    text-align: center;
+    margin-top: 18px;
+    animation: levelFadeIn 0.4s ease;
+}
+
+.success-badge {
+    font-size: 2.3rem;
+    margin-bottom: 8px;
+}
+
+.success-quote-en {
+    font-family: var(--font-primary);
+    font-size: 1.12rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.success-quote-sub {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+.next-stage-btn {
+    padding: 13px 32px;
+    border: none;
+    border-radius: 35px;
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.next-stage-btn:hover {
+    transform: scale(1.04);
+}
+
+/* ===================================================
+   LEVEL 1: BLOOD HORROR THEME COLORS
+   Image: Haunted Gate, Crimson Padlock, Dark Charcoal
+   =================================================== */
+.card-horror {
+    background: rgba(24, 4, 7, 0.95);
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 35px rgba(239, 68, 68, 0.3), inset 0 0 25px rgba(239, 68, 68, 0.12);
+}
+.card-horror .art-banner {
+    border: 2px solid rgba(239, 68, 68, 0.6);
+}
+.card-horror .level-tag { color: #f87171; }
+.card-horror .level-title { color: #fca5a5; text-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
+.card-horror .hidden-easter-box {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1.5px dashed rgba(239, 68, 68, 0.35);
+}
+.card-horror .hidden-easter-text { color: #fca5a5; }
+.card-horror .hidden-easter-box.unlocked {
+    background: rgba(239, 68, 68, 0.22);
+    border: 1.5px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.35);
+}
+.card-horror .hidden-easter-box.unlocked .hidden-easter-text { color: #fee2e2; }
+.card-horror .hint-container {
+    background: rgba(185, 28, 28, 0.18);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-left: 4px solid #ef4444;
+}
+.card-horror .hint-label { color: #ef4444; }
+.card-horror .hint-body { color: #fee2e2; }
+.card-horror .answer-input {
+    background: rgba(18, 3, 5, 0.7);
+    border: 1.5px solid rgba(239, 68, 68, 0.4);
+    color: #fff;
+}
+.card-horror .answer-input:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.45);
+}
+.card-horror .submit-btn {
+    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+}
+.card-horror .success-reveal-box {
+    background: rgba(239, 68, 68, 0.18);
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.3);
+}
+.card-horror .success-quote-en { color: #fee2e2; }
+.card-horror .success-quote-sub { color: #fca5a5; }
+.card-horror .next-stage-btn {
+    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+}
+
+/* ===================================================
+   LEVEL 2: MIDNIGHT CHAI THEME COLORS
+   Image: Roadside Stall, Steaming Kattan Kappi, Amber Lantern
+   =================================================== */
+.card-chayakkada {
+    background: rgba(28, 16, 4, 0.95);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.3), inset 0 0 25px rgba(245, 158, 11, 0.12);
+}
+.card-chayakkada .art-banner {
+    border: 2px solid rgba(245, 158, 11, 0.6);
+}
+.card-chayakkada .level-tag { color: #fbbf24; }
+.card-chayakkada .level-title { color: #fde68a; text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+.card-chayakkada .hidden-easter-box {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1.5px dashed rgba(245, 158, 11, 0.35);
+}
+.card-chayakkada .hidden-easter-text { color: #fde68a; }
+.card-chayakkada .hidden-easter-box.unlocked {
+    background: rgba(245, 158, 11, 0.22);
+    border: 1.5px solid #f59e0b;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+}
+.card-chayakkada .hidden-easter-box.unlocked .hidden-easter-text { color: #fffbeb; }
+.card-chayakkada .hint-container {
+    background: rgba(180, 83, 9, 0.18);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-left: 4px solid #f59e0b;
+}
+.card-chayakkada .hint-label { color: #fbbf24; }
+.card-chayakkada .hint-body { color: #fffbeb; }
+.card-chayakkada .answer-input {
+    background: rgba(20, 10, 2, 0.7);
+    border: 1.5px solid rgba(245, 158, 11, 0.4);
+    color: #fff;
+}
+.card-chayakkada .answer-input:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.45);
+}
+.card-chayakkada .submit-btn {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+    color: #1e1002;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+}
+.card-chayakkada .success-reveal-box {
+    background: rgba(245, 158, 11, 0.18);
+    border: 2px solid #f59e0b;
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+}
+.card-chayakkada .success-quote-en { color: #fffbeb; }
+.card-chayakkada .success-quote-sub { color: #fde68a; }
+.card-chayakkada .next-stage-btn {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+    color: #1e1002;
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+}
+
+/* ===================================================
+   LEVEL 3: HIGHWAY RAMBUTAN THEME COLORS
+   Image: Road Trip Car, Sweet Rambutan Ruby Red & Twilight
+   =================================================== */
+.card-drive {
+    background: rgba(30, 8, 18, 0.95);
+    border: 2px solid #f43f5e;
+    box-shadow: 0 0 35px rgba(244, 63, 94, 0.3), inset 0 0 25px rgba(244, 63, 94, 0.12);
+}
+.card-drive .art-banner {
+    border: 2px solid rgba(244, 63, 94, 0.6);
+}
+.card-drive .level-tag { color: #fb7185; }
+.card-drive .level-title { color: #fecdd3; text-shadow: 0 0 15px rgba(244, 63, 94, 0.5); }
+.card-drive .hidden-easter-box {
+    background: rgba(244, 63, 94, 0.08);
+    border: 1.5px dashed rgba(244, 63, 94, 0.35);
+}
+.card-drive .hidden-easter-text { color: #fecdd3; }
+.card-drive .hidden-easter-box.unlocked {
+    background: rgba(244, 63, 94, 0.22);
+    border: 1.5px solid #f43f5e;
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.35);
+}
+.card-drive .hidden-easter-box.unlocked .hidden-easter-text { color: #fff1f2; }
+.card-drive .hint-container {
+    background: rgba(190, 18, 60, 0.18);
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    border-left: 4px solid #f43f5e;
+}
+.card-drive .hint-label { color: #fb7185; }
+.card-drive .hint-body { color: #fff1f2; }
+.card-drive .answer-input {
+    background: rgba(22, 4, 12, 0.7);
+    border: 1.5px solid rgba(244, 63, 94, 0.4);
+    color: #fff;
+}
+.card-drive .answer-input:focus {
+    border-color: #f43f5e;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.45);
+}
+.card-drive .submit-btn {
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.45);
+}
+.card-drive .success-reveal-box {
+    background: rgba(244, 63, 94, 0.18);
+    border: 2px solid #f43f5e;
+    box-shadow: 0 0 25px rgba(244, 63, 94, 0.3);
+}
+.card-drive .success-quote-en { color: #fff1f2; }
+.card-drive .success-quote-sub { color: #fecdd3; }
+.card-drive .next-stage-btn {
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5);
+}
+
+/* ===================================================
+   LEVEL 4: MOUNTAIN PEAK THEME COLORS
+   Image: Mountain Peak, Pines, Spanish Delight Vanilla & Mint
+   =================================================== */
+.card-mountain {
+    background: rgba(4, 26, 18, 0.95);
+    border: 2px solid #10b981;
+    box-shadow: 0 0 35px rgba(16, 185, 129, 0.3), inset 0 0 25px rgba(16, 185, 129, 0.12);
+}
+.card-mountain .art-banner {
+    border: 2px solid rgba(16, 185, 129, 0.6);
+}
+.card-mountain .level-tag { color: #34d399; }
+.card-mountain .level-title { color: #a7f3d0; text-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+.card-mountain .hidden-easter-box {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1.5px dashed rgba(16, 185, 129, 0.35);
+}
+.card-mountain .hidden-easter-text { color: #a7f3d0; }
+.card-mountain .hidden-easter-box.unlocked {
+    background: rgba(16, 185, 129, 0.22);
+    border: 1.5px solid #10b981;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+}
+.card-mountain .hidden-easter-box.unlocked .hidden-easter-text { color: #ecfdf5; }
+.card-mountain .hint-container {
+    background: rgba(6, 78, 59, 0.22);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-left: 4px solid #10b981;
+}
+.card-mountain .hint-label { color: #34d399; }
+.card-mountain .hint-body { color: #ecfdf5; }
+.card-mountain .answer-input {
+    background: rgba(2, 18, 12, 0.7);
+    border: 1.5px solid rgba(16, 185, 129, 0.4);
+    color: #fff;
+}
+.card-mountain .answer-input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.45);
+}
+.card-mountain .submit-btn {
+    background: linear-gradient(135deg, #059669, #34d399);
+    color: #022c1e;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+}
+.card-mountain .success-reveal-box {
+    background: rgba(16, 185, 129, 0.18);
+    border: 2px solid #10b981;
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+}
+.card-mountain .success-quote-en { color: #ecfdf5; }
+.card-mountain .success-quote-sub { color: #a7f3d0; }
+.card-mountain .next-stage-btn {
+    background: linear-gradient(135deg, #059669, #34d399);
+    color: #022c1e;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+/* ===================================================
+   LEVEL 5: IRITTY BRIDGE THEME COLORS
+   Image: Historic Iron Truss Bridge in Monsoon Rain & Twilight Purple
+   =================================================== */
+.card-iritty {
+    background: rgba(24, 10, 42, 0.95);
+    border: 2px solid #a855f7;
+    box-shadow: 0 0 35px rgba(168, 85, 247, 0.3), inset 0 0 25px rgba(168, 85, 247, 0.12);
+}
+.card-iritty .art-banner {
+    border: 2px solid rgba(168, 85, 247, 0.6);
+}
+.card-iritty .level-tag { color: #c084fc; }
+.card-iritty .level-title { color: #e9d5ff; text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+.card-iritty .hidden-easter-box {
+    background: rgba(168, 85, 247, 0.08);
+    border: 1.5px dashed rgba(168, 85, 247, 0.35);
+}
+.card-iritty .hidden-easter-text { color: #ddd6fe; }
+.card-iritty .hidden-easter-box.unlocked {
+    background: rgba(168, 85, 247, 0.22);
+    border: 1.5px solid #a855f7;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+}
+.card-iritty .hidden-easter-box.unlocked .hidden-easter-text { color: #faf5ff; }
+.card-iritty .hint-container {
+    background: rgba(88, 28, 135, 0.22);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-left: 4px solid #a855f7;
+}
+.card-iritty .hint-label { color: #c084fc; }
+.card-iritty .hint-body { color: #faf5ff; }
+.card-iritty .answer-input {
+    background: rgba(16, 6, 28, 0.7);
+    border: 1.5px solid rgba(168, 85, 247, 0.4);
+    color: #fff;
+}
+.card-iritty .answer-input:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.45);
+}
+.card-iritty .submit-btn {
+    background: linear-gradient(135deg, #7e22ce, #c084fc);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.45);
+}
+.card-iritty .success-reveal-box {
+    background: rgba(168, 85, 247, 0.18);
+    border: 2px solid #a855f7;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+}
+.card-iritty .success-quote-en { color: #faf5ff; }
+.card-iritty .success-quote-sub { color: #ddd6fe; }
+.card-iritty .next-stage-btn {
+    background: linear-gradient(135deg, #7e22ce, #c084fc);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+}
+
+/* ===================================================
+   LEVEL 6: THE BIG QUESTION THEME COLORS
+   Image: Fairy Lights, Twilight Rose Pink, Golden Proposal
+   =================================================== */
+.card-proposal {
+    background: rgba(38, 8, 24, 0.95);
+    border: 2px solid #f43f5e;
+    box-shadow: 0 0 35px rgba(244, 63, 94, 0.3), inset 0 0 25px rgba(244, 63, 94, 0.12);
+}
+.card-proposal .art-banner {
+    border: 2px solid rgba(244, 63, 94, 0.6);
+}
+.card-proposal .level-tag { color: #fb7185; }
+.card-proposal .level-title { color: #fecdd3; text-shadow: 0 0 15px rgba(244, 63, 94, 0.5); }
+
+.proposal-stage-box {
+    background: rgba(159, 18, 57, 0.18);
+    border: 1.5px solid rgba(244, 63, 94, 0.35);
+    border-radius: 20px;
+    padding: 22px 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.proposal-lead-text {
+    font-family: var(--font-primary);
+    font-size: 1.02rem;
+    color: #ffe4e6;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.proposal-question {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.proposal-subtext {
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    color: #fda4af;
+    margin-top: 18px;
+    font-weight: 500;
+}
+
+/* Runaway Stage Container */
+.buttons-stage-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    overflow: visible;
+}
+
+.yes-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #ffffff;
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    user-select: none;
+}
+
+.yes-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.7);
+}
+
+.no-btn {
+    position: relative; /* Starts side-by-side right next to YES! */
+    padding: 12px 22px;
+    background: #ef4444;
+    color: #ffffff;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 800;
+    border: 2px solid #ffffff;
+    border-radius: 35px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(239, 68, 68, 0.4);
+    transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 9999 !important; /* ALWAYS on top of everything! */
+    user-select: none;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* ===================================================
+   LEVEL 7: GRAND CLIMAX THEME COLORS
+   Image: Starlight Gold, Fairy Lights, Royal Warm Amber Hug
+   =================================================== */
+.card-climax {
+    background: rgba(30, 16, 2, 0.95);
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 45px rgba(255, 215, 0, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.15);
+}
+.card-climax .art-banner {
+    border: 2px solid rgba(255, 215, 0, 0.6);
+}
+.card-climax .level-tag { color: #ffd700; }
+.card-climax .level-title { color: #fef08a; text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+
+.love-letter-card {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    border-radius: 20px;
+    padding: 24px 20px;
+    margin: 20px 0;
+    text-align: left;
+    backdrop-filter: blur(10px);
+}
+
+.love-letter-card p {
+    font-family: var(--font-primary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #fffbeb;
+    font-style: normal;
+    font-weight: 500;
+    margin-bottom: 14px;
+}
+
+.love-letter-signature {
+    text-align: right;
+    font-family: var(--font-primary);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+    margin-top: 10px;
+}
+
+.relive-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px solid rgba(255, 215, 0, 0.5);
+    color: #fef08a;
+    width: auto;
+    padding: 11px 26px;
+    border-radius: 30px;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.relive-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* ===================================================
+   RESPONSIVE ADJUSTMENTS
+   =================================================== */
+@media (max-width: 480px) {
+    .art-banner {
+        height: 205px;
+    }
+    .level-card {
+        padding: 20px 14px;
+    }
+    .level-title {
+        font-size: 1.55rem;
+    }
+    .hint-body {
+        font-size: 1rem;
+    }
+    .proposal-question {
+        font-size: 1.7rem;
+    }
+    .buttons-stage-wrapper {
+        min-height: 240px;
+    }
+    .yes-btn {
+        padding: 11px 22px;
+        font-size: 1.05rem;
+    }
+    .no-btn {
+        padding: 10px 18px;
+        font-size: 0.92rem;
+    }
+}

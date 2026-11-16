@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Memory Odyssey ❤️ | For Kunja</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+</head>
+<body class="theme-level-1">
+
+    <!-- Rain Overlay for Level 5 -->
+    <div class="rain-overlay"></div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:999;"></canvas>
+
+    <div class="app-container">
+
+        <!-- Top Navigation -->
+        <header class="top-nav">
+            <div class="brand-badge">
+                <span class="brand-icon">🗺️</span>
+                <span class="brand-title">THE MEMORY ODYSSEY</span>
+            </div>
+            <div class="nav-actions">
+                <button id="sound-toggle" class="icon-btn active" onclick="toggleSound()" title="Toggle Sound">🔔</button>
+            </div>
+        </header>
+
+        <!-- 7 Steps Progress Tracker -->
+        <div class="steps-tracker">
+            <div class="tracker-line"></div>
+            <div class="tracker-fill"></div>
+            <div class="step-node active" title="Level 1: Horror Gate">👻</div>
+            <div class="step-node" title="Level 2: Midnight Chai">☕</div>
+            <div class="step-node" title="Level 3: Highway Rambutan">🚗</div>
+            <div class="step-node" title="Level 4: Mountain Peak">⛰️</div>
+            <div class="step-node" title="Level 5: Iritty Bridge">🌉</div>
+            <div class="step-node" title="Level 6: Do You Love Me?">💖</div>
+            <div class="step-node" title="Level 7: The Forever Hug">🫂</div>
+        </div>
+
+        <!-- =========================================================
+             LEVEL 1: HORROR THEME
+             ========================================================= -->
+        <section id="level-1" class="level-card card-horror active">
+            <div class="art-banner">
+                <img src="assets/level1.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level1.jpg';}" alt="Haunted Victorian Mansion Gate">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 1 • THE HAUNTED GATE</span>
+                <h1 class="level-title">The Forbidden Lock</h1>
+            </div>
+
+            <!-- Faint Interactive Easter Egg Box -->
+            <div id="easter-1" class="hidden-easter-box" onclick="tapEaster(1)">
+                <p id="easter-text-1" class="hidden-easter-text">
+                    "Potta, don't run away seeing the ghosts! Type Shandhamma's secret code 😉"
+                </p>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="hint-container">
+                <div class="hint-label">💡 Clue for You</div>
+                <div class="hint-body">
+                    "ninak akathek varanamenkil shandhammayude numberinte last 4 digits paray"
+                </div>
+            </div>
+
+            <!-- Input & Form -->
+            <div class="solve-form">
+                <div class="input-wrapper">
+                    <input type="text" id="input-1" class="answer-input" placeholder="Enter 4 digit key..." autocomplete="off">
+                    <p id="error-1" class="error-msg">Thettaanallo potta... onnoodi chinthikku! 😉</p>
+                </div>
+                <button class="submit-btn" onclick="checkAnswer(1)">
+                    🔓 UNLOCK THE GATE
+                </button>
+            </div>
+
+            <!-- Success Reveal -->
+            <div id="success-1" class="success-reveal-box">
+                <div class="success-badge">🗝️</div>
+                <p class="success-quote-en">"Even in the darkest corridors, you are the only one who holds the key to my heart."</p>
+                <p class="success-quote-sub">The rusty chains shatter to the ground. The heavy gates creak open!</p>
+                <button class="next-stage-btn" onclick="setLevel(2)">Next Level: The Cold Night ➡️</button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 2: NIGHT ROADSIDE CHAYAKKADA
+             ========================================================= -->
+        <section id="level-2" class="level-card card-chayakkada">
+            <div class="art-banner">
+                <img src="assets/level2.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level2.jpg';}" alt="Roadside Tea Stall at Night with Steaming Kattan Kappi">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 2 • MIDNIGHT CHAI</span>
+                <h1 class="level-title">A Steaming Cup in the Cold</h1>
+            </div>
+
+            <!-- Faint Interactive Easter Egg Box -->
+            <div id="easter-2" class="hidden-easter-box" onclick="tapEaster(2)">
+                <p id="easter-text-2" class="hidden-easter-text">
+                    "Brrr... shivering in the cold! Do you remember what he held in his hand? ☕"
+                </p>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="hint-container">
+                <div class="hint-label">💡 Clue for You</div>
+                <div class="hint-body">
+                    "ann thanuppulla dhivasam ninte munnil irunn avan kudichadh enth"
+                </div>
+            </div>
+
+            <!-- Input & Form -->
+            <div class="solve-form">
+                <div class="input-wrapper">
+                    <input type="text" id="input-2" class="answer-input" placeholder="Type what he drank..." autocomplete="off">
+                    <p id="error-2" class="error-msg">Thettaanallo potta... onnoodi chinthikku! 😉</p>
+                </div>
+                <button class="submit-btn" onclick="checkAnswer(2)">
+                    ☕ CONFIRM DRINK
+                </button>
+            </div>
+
+            <!-- Success Reveal -->
+            <div id="success-2" class="success-reveal-box">
+                <div class="success-badge">✨</div>
+                <p class="success-quote-en">"Steaming hot like my love for you... that cold night became the warmest memory of my life."</p>
+                <p class="success-quote-sub">A hot cup of kattan kappi, your eyes, and that distant hill light... pure magic.</p>
+                <button class="next-stage-btn" onclick="setLevel(3)">Next Level: The Road Trip ➡️</button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 3: CAR DRIVE & RAMBUTAN
+             ========================================================= -->
+        <section id="level-3" class="level-card card-drive">
+            <div class="art-banner">
+                <img src="assets/level3.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level3.jpg';}" alt="Car Drive and Roadside Rambutan Vendor">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 3 • HIGHWAY BREEZE</span>
+                <h1 class="level-title">Sweet Bites on the Road</h1>
+            </div>
+
+            <!-- Faint Interactive Easter Egg Box -->
+            <div id="easter-3" class="hidden-easter-box" onclick="tapEaster(3)">
+                <p id="easter-text-3" class="hidden-easter-text">
+                    "Red color, spiky on the outside, sweet on the inside... just like you, pottadyyy! 🍒"
+                </p>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="hint-container">
+                <div class="hint-label">💡 Clue for You</div>
+                <div class="hint-body">
+                    "nammal radalum eppayum bandeel povumbo ninak njammal bangi thernnadh eedh fruit aan pulle"
+                </div>
+            </div>
+
+            <!-- Input & Form -->
+            <div class="solve-form">
+                <div class="input-wrapper">
+                    <input type="text" id="input-3" class="answer-input" placeholder="Name the fruit..." autocomplete="off">
+                    <p id="error-3" class="error-msg">Thettaanallo potta... onnoodi chinthikku! 😉</p>
+                </div>
+                <button class="submit-btn" onclick="checkAnswer(3)">
+                    🚗 CHECK FRUIT
+                </button>
+            </div>
+
+            <!-- Success Reveal -->
+            <div id="success-3" class="success-reveal-box">
+                <div class="success-badge">🍒</div>
+                <p class="success-quote-en">"Sweet, messy, and unforgettable. Every drive with you is my favorite journey."</p>
+                <p class="success-quote-sub">Fresh rambutans bought roadside, window down, wind in your hair... bliss!</p>
+                <button class="next-stage-btn" onclick="setLevel(4)">Next Level: The Mountain Peak ➡️</button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 4: MOUNTAIN PEAK & SPANISH DELIGHT
+             ========================================================= -->
+        <section id="level-4" class="level-card card-mountain">
+            <div class="art-banner">
+                <img src="assets/level4.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level4.jpg';}" alt="Mountain Top with Secret Ice Cream Bag">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 4 • MOUNTAIN BREEZE</span>
+                <h1 class="level-title">The Secret in the Bag</h1>
+            </div>
+
+            <!-- Faint Interactive Easter Egg Box -->
+            <div id="easter-4" class="hidden-easter-box" onclick="tapEaster(4)">
+                <p id="easter-text-4" class="hidden-easter-text">
+                    "I held it behind my back so carefully before it melted on that hill top! 🍦"
+                </p>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="hint-container">
+                <div class="hint-label">💡 Clue for You</div>
+                <div class="hint-body">
+                    "ann njammal malante moolilnn kandappo ninak bendi njammal kondoonna icecrem flaver nthaann oorma ndo ninak"
+                </div>
+            </div>
+
+            <!-- Input & Form -->
+            <div class="solve-form">
+                <div class="input-wrapper">
+                    <input type="text" id="input-4" class="answer-input" placeholder="Which ice cream flavor?..." autocomplete="off">
+                    <p id="error-4" class="error-msg">Thettaanallo potta... onnoodi chinthikku! 😉</p>
+                </div>
+                <button class="submit-btn" onclick="checkAnswer(4)">
+                    ⛰️ REVEAL ICE CREAM
+                </button>
+            </div>
+
+            <!-- Success Reveal -->
+            <div id="success-4" class="success-reveal-box">
+                <div class="success-badge">🍦</div>
+                <p class="success-quote-en">"Melting faster than Spanish Delight every single time you look into my eyes."</p>
+                <p class="success-quote-sub">Up on the windy hill, holding hands, sharing that sweet cold treat together!</p>
+                <button class="next-stage-btn" onclick="setLevel(5)">Next Level: Our Favorite Bridge ➡️</button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 5: IRITTY BRIDGE & THARAVAAD
+             ========================================================= -->
+        <section id="level-5" class="level-card card-iritty">
+            <div class="art-banner">
+                <img src="assets/level5.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level5.jpg';}" alt="Historic Iritty Iron Truss Bridge in the Rain">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 5 • OUR ROOTS &amp; HEART</span>
+                <h1 class="level-title">The Heritage of Us</h1>
+            </div>
+
+            <!-- Faint Interactive Easter Egg Box -->
+            <div id="easter-5" class="hidden-easter-box" onclick="tapEaster(5)">
+                <p id="easter-text-5" class="hidden-easter-text">
+                    "The place that holds our footsteps, our conversations, our forever home... 🌉"
+                </p>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="hint-container">
+                <div class="hint-label">💡 Clue for You</div>
+                <div class="hint-body">
+                    "kunja nammal ettavum ishtapetta nammale tharavaad evdaann oorma ndo anak"
+                </div>
+            </div>
+
+            <!-- Input & Form -->
+            <div class="solve-form">
+                <div class="input-wrapper">
+                    <input type="text" id="input-5" class="answer-input" placeholder="Where is our tharavaad?..." autocomplete="off">
+                    <p id="error-5" class="error-msg">Thettaanallo potta... onnoodi chinthikku! 😉</p>
+                </div>
+                <button class="submit-btn" onclick="checkAnswer(5)">
+                    🌉 CROSS THE BRIDGE
+                </button>
+            </div>
+
+            <!-- Success Reveal -->
+            <div id="success-5" class="success-reveal-box">
+                <div class="success-badge">🎉🌉❤️</div>
+                <p class="success-quote-en">"The bridge that witnessed our walks, our laughs, and our forever promise. You are my home, Kunja."</p>
+                <p class="success-quote-sub" style="font-weight: bold; color: #ffd700;">
+                    ✨ 5 MEMORIES UNLOCKED! NOW ONE FINAL QUESTION REMAINS... ✨
+                </p>
+                <button class="next-stage-btn" onclick="setLevel(6)">Proceed to The Big Question 💖</button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 6: "DO YOU LOVE ME?" WITH RUNAWAY "NO" BUTTON!
+             ========================================================= -->
+        <section id="level-6" class="level-card card-proposal">
+            <div class="art-banner">
+                <img src="assets/level6.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level6.jpg';}" alt="Boy Asking Girl Do You Love Me">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">LEVEL 6 • THE BIG QUESTION</span>
+                <h1 class="level-title">One Last Question...</h1>
+            </div>
+
+            <div class="proposal-stage-box">
+                <p class="proposal-lead-text">
+                    "Kunja... through every fight, every late-night laugh, every drive, and every memory we built together... there's only one thing I need to know:"
+                </p>
+                
+                <h2 class="proposal-question">DO YOU LOVE ME?</h2>
+
+                <!-- Interactive Buttons Stage -->
+                <div class="buttons-stage-wrapper">
+                    <button class="yes-btn" onclick="acceptLove()">
+                        YES ❤️
+                    </button>
+                    
+                    <button id="runaway-no-btn" class="no-btn" onmouseenter="dodgeNo(event)" onclick="dodgeNo(event)" ontouchstart="dodgeNo(event)">
+                        NO 💔
+                    </button>
+                </div>
+
+                <p class="proposal-subtext">
+                    (Try clicking NO if you can... 😉)
+                </p>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             LEVEL 7: GRAND CLIMAX & THE FOREVER HUG
+             ========================================================= -->
+        <section id="level-7" class="level-card card-climax">
+            <div class="art-banner">
+                <img src="assets/level7.jpg" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='level7.jpg';}" alt="Romantic Climax Couple Hug Under Fairy Lights">
+            </div>
+
+            <div class="level-header">
+                <span class="level-tag">CHAPTER 7 • THE FOREVER PROMISE</span>
+                <h1 class="level-title">Forever &amp; Always ❤️</h1>
+            </div>
+
+            <!-- Love Letter Box -->
+            <div class="love-letter-card">
+                <p>
+                    I knew it, Pottadyyy! 🥰 Even if that 'NO' button ran across the whole world, you and I were always meant to end up right here.
+                </p>
+                <p>
+                    From the day you gave me that special smile, to cold nights sipping kattan kappi, our crazy drives eating rambutans, holding hands on misty hills with Spanish Delight, and walking over the historic Iritty bridge... you became my peace, my laughter, and my home.
+                </p>
+                <p>
+                    No matter where life takes us, through every storm and every sunset: I loved you yesterday, I love you today, and I will love you for all the tomorrows yet to come.
+                </p>
+                <div class="love-letter-signature">
+                    Stay mine forever, Kunja! ❤️
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+                <button class="next-stage-btn" style="background: linear-gradient(135deg, #d97706, #ffd700); color: #000; width: 100%; max-width: 320px;" onclick="sounds.playLoveMelody()">
+                    🎶 Play Our Love Melody
+                </button>
+                <button class="relive-btn" onclick="resetEverything()">
+                    🔄 Relive Journey From Level 1
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
